@@ -3,6 +3,7 @@ import jwtAuth from "./../../middleware/jwtAuth.js";
 import authorize from "./../../middleware/authorize.js";
 import checkPermission from "../commons/permissionMiddleware.js";
 import { PermissionKeyEmployee } from "./../utils/permissionList.js";
+import paginationValidate from "./../utils/paginationValidate.js";
 import {
   createNewProduct,
   getAllProducts,
@@ -41,11 +42,27 @@ routerStore.patch(
   validateMiddleware(productValidate.paramProduct, "params"),
   updateProductById
 );
-routerStore.get("/all", getAllProducts);
-router.get("/", searchProductByName);
+routerStore.get(
+  "/all",
+  validateMiddleware(paginationValidate.paging, "query"),
+  getAllProducts
+);
+router.get(
+  "/",
+  validateMiddleware(productValidate.paramProduct, "params"),
+  searchProductByName
+);
 
 routerStore.use(jwtAuth, authorize("admin"));
-routerStore.post("/:productId", approveProduct);
-routerStore.get("/require", getAllProductRequirements);
+routerStore.post(
+  "/:productId",
+  validateMiddleware(productValidate.paramProduct, "params"),
+  approveProduct
+);
+routerStore.get(
+  "/require",
+  validateMiddleware(paginationValidate.paging, "query"),
+  getAllProductRequirements
+);
 
 export default router;

@@ -3,6 +3,7 @@ import authorize from "../../middleware/authorize.js";
 import jwtAuth from "../../middleware/jwtAuth.js";
 import categoryValidate from "./categoryValidate.js";
 import upload from "../commons/upload.js";
+import paginationValidate from "./../utils/paginationValidate.js";
 import validateMiddleware from "../commons/validateMiddleware.js";
 import {
   createCategory,
@@ -25,7 +26,11 @@ routerStore.post(
   validateMiddleware(categoryValidate.postCategory, "body"),
   createCategory
 );
-routerStore.get("/all", getAllCategories);
+routerStore.get(
+  "/all",
+  validateMiddleware(paginationValidate.paging, "query"),
+  getAllCategories
+);
 routerStore.get(
   "/:categoryId",
   validateMiddleware(categoryValidate.paramCategory, "params"),
@@ -43,7 +48,15 @@ routerStore.delete(
 );
 router.use("/admin", routerAdmin);
 routerAdmin.use(jwtAuth, authorize("admin"));
-routerAdmin.post("/:categoryId", approveCategory);
-routerAdmin.delete("/:categoryId", rejectCategory);
+routerAdmin.post(
+  "/:categoryId",
+  validateMiddleware(categoryValidate.paramCategory, "params"),
+  approveCategory
+);
+routerAdmin.delete(
+  "/:categoryId",
+  validateMiddleware(categoryValidate.paramCategory, "params"),
+  rejectCategory
+);
 
 export default router;

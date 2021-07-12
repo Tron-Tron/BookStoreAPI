@@ -10,5 +10,9 @@ const schemas = {
   paramCart: Joi.object({
     cartId: myJoiObjectId().trim().required(),
   }),
+  checkout: Joi.object({
+    paymentMethod: Joi.string().trim().required(),
+    deliveryAddress: Joi.string().required(),
+  }),
 };
 export default schemas;

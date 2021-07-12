@@ -14,7 +14,8 @@ export const addStore = asyncMiddleware(async (req, res, next) => {
 });
 
 export const getAllStores = asyncMiddleware(async (req, res, next) => {
-  const stores = await storeService.getAll();
+  const { page, perPage } = req.query;
+  const stores = await storeService.getAll(null, null, null, page, perPage);
   if (!stores.length) {
     throw new ErrorResponse(400, "No Stores");
   }

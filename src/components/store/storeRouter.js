@@ -10,11 +10,15 @@ import {
   getStoreById,
   getAllStores,
 } from "./storeController.js";
-
+import paginationValidate from "./../utils/paginationValidate.js";
 const router = express.Router();
 router.use(jwtAuth, authorize("admin"));
 router.post("/", validateMiddleware(storeValidate.postStore, "body"), addStore);
-router.get("/all", getAllStores);
+router.get(
+  "/all",
+  validateMiddleware(paginationValidate.paging, "query"),
+  getAllStores
+);
 router.get(
   "/:storeId",
   validateMiddleware(storeValidate.paramStore, "params"),

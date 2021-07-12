@@ -86,7 +86,8 @@ export const getOrderStore = asyncMiddleware(async (req, res, next) => {
 });
 export const getUserOrder = asyncMiddleware(async (req, res, next) => {
   const user = req.user._id;
-  const order = await orderService.getAll({ user });
+  const { page, perPage } = req.query;
+  const order = await orderService.getAll({ user }, null, null, page, perPage);
   if (!order.length) {
     throw new ErrorResponse(400, "No order");
   }

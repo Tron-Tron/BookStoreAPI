@@ -5,18 +5,31 @@ import { staffRequirementService } from "./staffRequirementService.js";
 import { userService } from "../users/userService.js";
 export const getAllRequirementByUserRole = asyncMiddleware(
   async (req, res, next) => {
+    const { page, perPage } = req.query;
     const user = req.user;
     let requirements;
     if (user.roles === "admin") {
-      requirements = await staffRequirementService.getAll({
-        roleAccept: user.roles,
-      });
+      requirements = await staffRequirementService.getAll(
+        {
+          roleAccept: user.roles,
+        },
+        null,
+        null,
+        page,
+        perPage
+      );
     } else {
       const store = await userService.getById({ _id: user._id });
-      requirements = await staffRequirementService.getAll({
-        roleAccept: user.roles,
-        storeId: store.storeId,
-      });
+      requirements = await staffRequirementService.getAll(
+        {
+          roleAccept: user.roles,
+          storeId: store.storeId,
+        },
+        null,
+        null,
+        page,
+        perPage
+      );
     }
     if (!requirements.length) {
       throw new ErrorResponse(404, "No requirements");

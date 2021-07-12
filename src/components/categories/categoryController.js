@@ -76,11 +76,17 @@ export const getCategoryById = asyncMiddleware(async (req, res, next) => {
 
 export const getAllCategories = asyncMiddleware(async (req, res, next) => {
   const storeId = req.user.storeId;
-  console.log("storeId", storeId);
-  const categories = await categoryService.getAll({
-    store: storeId,
-    status: "confirmed",
-  });
+  const { page, perPage } = req.query;
+  const categories = await categoryService.getAll(
+    {
+      store: storeId,
+      status: "confirmed",
+    },
+    null,
+    null,
+    page,
+    perPage
+  );
   if (!categories.length) {
     throw new ErrorResponse(404, "No categories");
   }

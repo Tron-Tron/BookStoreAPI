@@ -18,7 +18,7 @@ export const register = asyncMiddleware(async (req, res, next) => {
 });
 export const login = asyncMiddleware(async (req, res, next) => {
   const { username, password } = req.body;
-  const isExistName = await userService.findOne({ username });
+  const isExistName = await userService.findOne({ username, status: true });
   if (!isExistName) {
     throw new ErrorResponse(404, "User is not found");
   }

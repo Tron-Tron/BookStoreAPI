@@ -24,7 +24,10 @@ export const updatedProduct = asyncMiddleware(async (req, res, next) => {
     if (!cart) {
       throw new ErrorResponse(400, "No cart");
     }
-    const isExistProduct = await productService.getById(productId);
+    const isExistProduct = await productService.findOne({
+      _id: productId,
+      status: "confirmed",
+    });
     if (!isExistProduct) {
       throw new ErrorResponse(400, `id product ${productId} is not exist`);
     }

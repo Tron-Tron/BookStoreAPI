@@ -3,21 +3,22 @@ import JoiObjectId from "joi-objectid";
 const myJoiObjectId = JoiObjectId(Joi);
 
 const schemas = {
-  postUser: Joi.object({
-    username: Joi.string().required(),
-    balance: Joi.number(),
-    phoneNumber: Joi.string()
-      .trim()
-      .pattern(/^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$/im)
-      .required(),
-    password: Joi.string().required(),
+  registerStaff: Joi.object({
+    storeId: myJoiObjectId().trim().required(),
+    roleRegister: Joi.string().trim().required(),
   }),
-  loginUser: Joi.object({
-    username: Joi.string().required(),
-    password: Joi.string().required(),
-  }),
-  paramUser: Joi.object({
+  paramRegisterStaff: Joi.object({
     userId: myJoiObjectId().trim().required(),
+  }),
+  postUser: Joi.object({
+    username: Joi.string().trim().required(),
+    phoneNumber: Joi.string()
+      .pattern(
+        new RegExp("/^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$/im")
+      )
+      .required(),
+    balance: Joi.number().required(),
+    password: Joi.string().trim().required(),
   }),
 };
 export default schemas;

@@ -66,10 +66,13 @@ export const getAllProductRequirements = asyncMiddleware(
 );
 export const getAllProducts = asyncMiddleware(async (req, res, next) => {
   const storeId = req.user.storeId;
+  const { page, perPage } = req.query;
   const products = await productService.getAll(
     { store: storeId, status: "confirmed" },
     null,
-    "category_detail"
+    "category_detail",
+    page,
+    perPage
   );
   if (!products.length) {
     throw new ErrorResponse(400, "No Products");
@@ -125,11 +128,14 @@ export const updateProductById = asyncMiddleware(async (req, res, next) => {
   return new SuccessResponse(200, updatedProduct).send(res);
 });
 export const searchProductByName = asyncMiddleware(async (req, res, next) => {
-  const { keyName } = req.query;
+  const { keyName, page, perPage } = req.query;
   const storeId = req.user.storeId;
   const productArr = await productService.getAll(
     { store: storeId, status: "confirmed" },
-    "name"
+    "name",
+    null,
+    page,
+    perPage
   );
   const searchedProduct = productArr.filter((value) => {
     return (
