@@ -57,7 +57,14 @@ export const rejectCategory = asyncMiddleware(async (req, res, next) => {
 });
 export const getAllProductRequirements = asyncMiddleware(
   async (req, res, next) => {
-    const products = await productService.getAll({ status: "waiting" });
+    const { page, perPage } = req.query;
+    const products = await productService.getAll(
+      { status: "waiting" },
+      null,
+      null,
+      page,
+      perPage
+    );
     if (!products.length) {
       throw new ErrorResponse(400, "No products");
     }
