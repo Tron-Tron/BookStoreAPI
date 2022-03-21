@@ -10,7 +10,7 @@ const UserSchema = new Schema(
     },
     phoneNumber: {
       type: String,
-      required: [true, "phone is required"],
+      // required: [true, "phone is required"],
     },
     balance: {
       type: Number,

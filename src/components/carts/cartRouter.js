@@ -14,6 +14,8 @@ const router = express.Router();
 router.use(jwtAuth, authorize("customer"));
 router.post(
   "/",
+  jwtAuth,
+  authorize("customer"),
   validateMiddleware(cartValidate.addProduct, "body"),
   updatedProduct
 );

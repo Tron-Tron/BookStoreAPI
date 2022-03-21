@@ -6,15 +6,11 @@ const CategorySchema = new Schema(
       type: String,
       required: [true, "name is required"],
     },
-    logo: {
-      type: String,
-      required: [true, "logo is required"],
-    },
     status: {
       type: String,
       required: [true, "status is required"],
-      enum: ["waiting", "confirmed", "deleted"],
-      default: "waiting",
+      enum: ["active", "disable"],
+      default: "active",
     },
     store: {
       type: Schema.Types.ObjectId,

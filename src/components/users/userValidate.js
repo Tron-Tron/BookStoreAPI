@@ -12,12 +12,12 @@ const schemas = {
   }),
   postUser: Joi.object({
     username: Joi.string().trim().required(),
-    phoneNumber: Joi.string()
-      .pattern(
-        new RegExp("/^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$/im")
-      )
-      .required(),
-    balance: Joi.number().required(),
+    // phoneNumber: Joi.string()
+    //   .pattern(
+    //     new RegExp("/^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$/im")
+    //   )
+    //   .required(),
+    // balance: Joi.number().required(),
     password: Joi.string().trim().required(),
   }),
 };
